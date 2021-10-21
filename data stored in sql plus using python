@@ -1,0 +1,294 @@
+from turtle import goto, back
+
+import cx_Oracle
+#cx_Oracle.init_oracle_client(lib_dir=r"C:\Users\fjwu\Downloads\instantclient-basiclite-windows.x64-19.11.0.0.0dbru\instantclient_19_11")
+
+
+try:
+            con = cx_Oracle.connect('scott/tiger@localhost:1521/scott')
+
+except cx_Oracle.DatabaseError as er:
+            print('There is an error in the Oracle database:', er)
+else:
+    try:
+        cur = con.cursor()
+        class Connect:
+
+            def signup_Fct(self):
+                    name=input("Enter name: ")
+                    phone =int(input("Enter phone number: "))
+                    cnic=input("Enter CNIC: ")
+                    address = input("Enter Address: ")
+                    city = input("Enter City: ")
+                    dom = input("Enter Domicile: ")
+                    qual = input("Enter Qualification: ")
+                    pay = input("Enter Pay: ")
+                    cr_hrs= input("Enter Credit Hours: ")
+                    course = input("Enter Course: ")
+                    email = input("Enter Official_Email: ")
+                    print("You've been registered Successfully!")
+                    sql = "INSERT INTO Instructors (NAME,PHONE_NUMBER , CNIC, ADDRESS,CITY,DOMICILE,QUALIFICATION,PAY,CREDIT_HOURS,COURSE,OFFICIAL_EMAIL) VALUES ('%s', %s,'%s','%s','%s','%s','%s','%s','%s','%s','%s')"%(name, phone,cnic,address,city,dom,qual,pay,cr_hrs,course,email)
+                    cur.execute(sql)
+                    con.commit()
+            def signup_Std(self):
+                name = input("Enter name: ")
+                phone = int(input("Enter phone number: "))
+                cnic = input("Enter CNIC: ")
+                address = input("Enter Address: ")
+                city = input("Enter City: ")
+                dom = input("Enter Domicile: ")
+                last_degree = input("Enter Qualification: ")
+                course = input("Enter Course: ")
+                email = input("Enter Official_Email: ")
+                print("You've been registered Successfully!")
+                sql = "INSERT INTO Students (NAME,PHONE_NUMBER , CNIC, ADDRESS,CITY,DOMICILE,LAST_DEGRE,COURSE,EMAIL) VALUES ('%s', %s,'%s','%s','%s','%s','%s','%s','%s')" % (
+                name, phone, cnic, address, city, dom,last_degree, course, email)
+                cur.execute(sql)
+                con.commit()
+            def signup_Adm(self):
+                name = input("Enter name: ")
+                phone = int(input("Enter phone number: "))
+                cnic = input("Enter CNIC: ")
+                address = input("Enter Address: ")
+                city = input("Enter City: ")
+                course = input("Enter Course: ")
+                pay=input("Enter your Pay: ")
+                email = input("Enter Official_Email: ")
+                print("You've been registered Successfully!")
+                sql = "INSERT INTO Administrator (NAME,PHONE_NUMBER , CNIC, ADDRESS,CITY,COURCES,PAY,OFFICIAL_EMAIL) VALUES ('%s', %s,'%s','%s','%s','%s','%s','%s')" % (
+                name, phone, cnic, address, city, course,pay, email)
+                cur.execute(sql)
+                con.commit()
+            def login_Fct(self):
+                    rec = ("Select * from Instructors")
+                    cur.execute(rec)
+                    records = cur.fetchall()
+
+                    cnic=input("Enter CNIC: ")
+                    state = 'n'
+                    for row in records:
+                            if cnic == row [2]:
+                                state='y'
+                                rec = 'Select * from Instructors where cnic =\''+cnic+'\''
+                                #print(rec)
+                                cur.execute(rec)
+                                records = cur.fetchall()
+                                for x in records:
+                                    print(x)
+                                break
+                    if state == 'n':
+                        print("Check your credentials and try again!!!")
+                        choice = input("Do you want to login again? (Y/N)")
+                        if choice == 'Y' or choice == 'y':
+                            obj.login_Fct('as')
+                        else:
+                            exit
+                    return cnic
+            def login_Std(self):
+                    rec = ("Select * from Students")
+                    cur.execute(rec)
+                    records = cur.fetchall()
+
+                    cnic=input("Enter CNIC: ")
+                    state = 'n'
+                    for row in records:
+                            if cnic == row [2]:
+                                state='y'
+                                rec = 'Select * from Students where cnic =\''+cnic+'\''
+                                #print(rec)
+                                cur.execute(rec)
+                                records = cur.fetchall()
+                                for x in records:
+                                    print(x)
+                                break
+                    if state == 'n':
+                        print("Check your credentials and try again!!!")
+                        choice = input("Do you want to login again? (Y/N)")
+                        if choice == 'Y' or choice == 'y':
+                            obj.login_Fct('as')
+                        else:
+                            exit
+                    return cnic
+            def login_Adm(self):
+                    rec = ("Select * from Administrator")
+                    cur.execute(rec)
+                    records = cur.fetchall()
+
+                    cnic=input("Enter CNIC: ")
+                    state = 'n'
+                    for row in records:
+                            if cnic == row [2]:
+                                state='y'
+                                rec = 'Select * from Administrator where cnic =\''+cnic+'\''
+                                #print(rec)
+                                cur.execute(rec)
+                                records = cur.fetchall()
+                                for x in records:
+                                    print(x)
+                                break
+                    if state == 'n':
+                        print("Check your credentials and try again!!!")
+                        choice = input("Do you want to login again? (Y/N)")
+                        if choice == 'Y' or choice == 'y':
+                            obj.login_Fct('as')
+                        else:
+                            exit
+                    return cnic
+            #def choice(self):
+                #hoice =input ('do you want to continue (y/n),choice')
+                #if choice == 'Y' or choice == 'y':
+                #else:
+                    #exit
+
+
+        obj = Connect
+        #obj.signup('a')
+        #obj.login('a')
+
+        import itertools
+        import threading
+        import time
+        import sys
+        import os
+
+        done = False
+
+
+        # here is the animation
+        def animate():
+            for c in itertools.cycle(['|', '/', '-', '\\']):
+                if done:
+                    break
+                sys.stdout.write('\rloading ' + c)
+                sys.stdout.flush()
+                time.sleep(0.1)
+            sys.stdout.write('\rDone!     ')
+
+
+        t = threading.Thread(target=animate)
+        t.start()
+        # long process here
+        time.sleep(1)
+        done = True
+        print(
+            "\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+        print(" \t\t***********************************************************************************************")
+        print("                                    ")
+        print("             \t\t\t\t\t\t\t\t\tWELCOME                ")
+        print("                \t\t\t\t\t\t\t\t  TO                  ")
+        print("     \t\t\t\t\t\t\t\t\tNAVTTEC MANAGEMENT SYSTEM      ")
+        print("                                    ")
+        print(" \t\t***********************************************************************************************")
+        print(
+            "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+        print('press any key to continue')
+        temp = input()
+        choice='y'
+        while choice == 'Y' or choice == 'y':
+            print("\n\n\n****************************************************************")
+            print("****************************************************************")
+            print("****************************************************************")
+            print("----------------------------------------------------------------")
+
+            print("                           PORTALS                                 ")
+            print("                      Enter 1 for ADMIN                       ")
+            print("                      Enter 2 for FACULTY                     ")
+            print("                      Enter 3 for STUDENTS                    ")
+
+            print("----------------------------------------------------------------")
+            print("****************************************************************")
+            print("****************************************************************")
+            print("****************************************************************")
+            print("enter number(i-e 1,2,3)")
+            user = int(input())
+            if user == 1:
+                print("\n\n\n****************************************************************")
+                print("----------------------------------------------------------------")
+                print("                           NAVTTAC ADMINISTRATOR                      ")
+                print("                             1) SIGNUP                          ")
+                print("                             2) LOGIN                           ")
+                print("----------------------------------------------------------------")
+                print("****************************************************************")
+                print("select 1 or 2")
+                admins = int(input())
+                if admins == 1:
+                    obj.signup_Adm('a')
+                elif admins == 2:
+                    obj.login_Adm('a')
+
+                print("****************************************************************")
+                print("****************************************************************")
+                print("----------------------------------------------------------------")
+                print("                           DETAILS                                 ")
+                print("                      Enter 1 for FACULTY                     ")
+                print("                      Enter 2 for STUDENTS                    ")
+
+                print("----------------------------------------------------------------")
+                print("****************************************************************")
+                print("****************************************************************")
+                print("select 1 or 2")
+                adminis = int(input())
+                if adminis == 1:
+                    reco = ("Select * from Administrator")
+                    cur.execute(reco)
+                    records = cur.fetchall()
+                    print(records)
+                elif adminis == 2:
+                    record = ("Select * from Students")
+                    cur.execute(record)
+                    data = cur.fetchall()
+                    print(data)
+
+            elif user == 2:
+
+                print("\n\n\n****************************************************************")
+                print("----------------------------------------------------------------")
+                print("                           NAVTTAC FACULTY                      ")
+                print("                             1) SIGNUP                          ")
+                print("                             2) LOGIN                           ")
+                print("----------------------------------------------------------------")
+                print("****************************************************************")
+                print("select 1 or 2")
+                F_LOGIN = int(input())
+                if F_LOGIN == 1:
+                    obj.signup_Fct('a')
+                elif F_LOGIN == 2:
+                    obj.login_Fct('a')
+
+            elif user == 3:
+                print("\n\n\n****************************************************************")
+                print("----------------------------------------------------------------")
+                print("                           NAVTTAC STUDENT                      ")
+                print("                             1) SIGNUP                          ")
+                print("                             2) LOGIN                           ")
+                print("----------------------------------------------------------------")
+                print("****************************************************************")
+                print("select 1 or 2")
+                S_LOGIN = int(input())
+                if S_LOGIN == 1:
+                    obj.signup_Std('a')
+                    #obj.choice('a')
+
+                elif S_LOGIN == 2:
+                    obj.login_Std('a')
+                    #obj.choice('a')
+            else:
+                print('out of range')
+            choice=input('do you want to continue?(y/n),choice')
+
+
+
+
+
+    except cx_Oracle.DatabaseError as er:
+        print('There is an error in the Oracle database:', er)
+
+    except Exception as er:
+        print('Error:' + str(er))
+
+
+    finally:
+        if cur:
+            cur.close()
+        if con:
+            con.close()
